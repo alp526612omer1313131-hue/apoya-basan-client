@@ -28,17 +28,9 @@ jobs:
           mkdir -p wurst/src/main/java/net/wurstclient/clickgui/screens
           find mine -name "*.java" -exec cp {} wurst/src/main/java/net/wurstclient/clickgui/screens/ \;
 
-      - name: Derle
+            - name: Derle
         working-directory: wurst
         run: |
           chmod +x gradlew
+          ./gradlew spotlessApply --no-daemon
           ./gradlew build --no-daemon
-
-      - name: Jar dosyalarini goster
-        run: ls -la wurst/build/libs/
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: apoya-basan-client
-          path: wurst/build/libs/*.jar
-          if-no-files-found: error
