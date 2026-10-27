@@ -18,8 +18,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
-
+   java-version: 25
       - run: cp mine/ClickGuiScreen.java wurst/src/main/java/net/wurstclient/clickgui/screens/ClickGuiScreen.java
 
       - run: cd wurst && chmod +x gradlew && ./gradlew build
