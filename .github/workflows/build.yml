@@ -23,14 +23,20 @@ jobs:
       - name: Repodaki java dosyalarini listele
         run: find mine -name "*.java"
 
-      - name: Kendi dosyalarimi Wurst'a kopyala
+      - name: Kendi dosyami Wurst'a kopyala
         run: |
           mkdir -p wurst/src/main/java/net/wurstclient/clickgui/screens
-          find mine -name "*.java" -exec cp {} wurst/src/main/java/net/wurstclient/clickgui/screens/ \;
+          find mine -iname "Apoyaclickguiscreen.java" -exec cp {} wurst/src/main/java/net/wurstclient/clickgui/screens/ \;
 
-            - name: Derle
+      - name: Derle
         working-directory: wurst
         run: |
           chmod +x gradlew
           ./gradlew spotlessApply --no-daemon
           ./gradlew build --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apoya-basan-client
+          path: wurst/build/libs/*.jar
+          if-no-files-found: error
