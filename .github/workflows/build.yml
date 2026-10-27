@@ -15,15 +15,18 @@ jobs:
           ref: v7.56.1-MC1.21.11
           path: wurst
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: 21
+          java-version: 25
+
+      - name: Repodaki java dosyalarini listele
+        run: find mine -name "*.java"
 
       - name: Kendi dosyalarimi Wurst'a kopyala
         run: |
           mkdir -p wurst/src/main/java/net/wurstclient/clickgui/screens
-          cp mine/Apoyaclickguiscreen.java wurst/src/main/java/net/wurstclient/clickgui/screens/
+          find mine -name "*.java" -exec cp {} wurst/src/main/java/net/wurstclient/clickgui/screens/ \;
 
       - name: Derle
         working-directory: wurst
@@ -31,7 +34,11 @@ jobs:
           chmod +x gradlew
           ./gradlew build --no-daemon
 
+      - name: Jar dosyalarini goster
+        run: ls -la wurst/build/libs/
+
       - uses: actions/upload-artifact@v4
         with:
           name: apoya-basan-client
           path: wurst/build/libs/*.jar
+          if-no-files-found: error
